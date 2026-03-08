@@ -3,7 +3,162 @@
 /*  Extends lisn.css design system                        */
 /* ═══════════════════════════════════════════════════════ */
 
-/* ── Page layouts ── */
+
+/* ═══════════════════════════════════════════════════════ */
+/*  iPhone 16 Device Frame (desktop only)                  */
+/*  393×852pt logical — shown on screens > 500px           */
+/* ═══════════════════════════════════════════════════════ */
+
+/* Desktop background */
+@media (min-width: 500px) {
+  html {
+    background: #0a0a0a;
+  }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .device-frame {
+    width: 393px;
+    height: 852px;
+    border-radius: 55px;
+    border: 6px solid #1a1a1a;
+    box-shadow:
+      0 0 0 2px #333,
+      0 40px 100px rgba(0,0,0,0.8),
+      0 0 80px rgba(42,176,158,0.05),
+      inset 0 0 0 2px #111;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    background: var(--bg-deep);
+  }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 126px;
+    height: 37px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 100;
+  }
+
+  /* Home Indicator */
+  .home-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+    z-index: 100;
+  }
+
+  /* App shell fills the frame */
+  .app-shell {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--grad-bg);
+  }
+
+  .app-shell::before {
+    display: none; /* Remove ambient glow inside frame */
+  }
+
+  /* Content area */
+  .app-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 54px; /* Space for dynamic island */
+  }
+
+  /* Bottom nav stays inside frame */
+  .bottom-nav {
+    position: relative !important;
+    border-radius: 0;
+    padding-bottom: 32px !important; /* Space for home indicator */
+  }
+
+  /* Toast inside frame */
+  .toast {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    bottom: 100px;
+    max-width: 340px;
+  }
+  .toast.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Page adjustments */
+  .page-center {
+    min-height: auto;
+    height: 100%;
+    padding-top: 54px;
+  }
+
+  .page-form {
+    padding-top: 20px;
+  }
+
+  .chat-page {
+    height: 100%;
+  }
+
+  .chat-header {
+    padding-top: 8px;
+  }
+
+  .chat-input-bar {
+    padding-bottom: 32px;
+  }
+
+  .page-padding {
+    padding-bottom: 16px;
+  }
+}
+
+/* Mobile: no frame, full-screen */
+@media (max-width: 499px) {
+  .device-frame {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .dynamic-island { display: none; }
+  .home-indicator { display: none; }
+
+  .app-shell {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════ */
+/*  Page layouts                                           */
+/* ═══════════════════════════════════════════════════════ */
+
 .page-center {
   display: flex;
   flex-direction: column;
@@ -279,12 +434,12 @@
   50%      { box-shadow: 0 0 0 16px rgba(248,113,113,0); }
 }
 
-/* ── Toast override position for bottom nav ── */
+/* ── Toast ── */
 .toast {
   bottom: 90px;
 }
 
-/* ── Bottom nav adjustment ── */
+/* ── Bottom nav ── */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -292,7 +447,7 @@
   right: 0;
 }
 
-/* ── Card icon sizing in inline contexts ── */
+/* ── Card icon sizing ── */
 .card-icon {
   width: 44px;
   height: 44px;
@@ -311,8 +466,10 @@
 .grid-3 .card .card-icon { width: 36px; height: 36px; }
 .grid-3 .card .card-icon svg { width: 18px; height: 18px; }
 
-/* ── iOS safe area for app content ── */
+/* ── iOS safe area ── */
 @supports (padding: env(safe-area-inset-top)) {
-  .page-center { padding-top: env(safe-area-inset-top); }
-  .chat-header { padding-top: calc(12px + env(safe-area-inset-top)); }
+  @media (max-width: 499px) {
+    .page-center { padding-top: env(safe-area-inset-top); }
+    .chat-header { padding-top: calc(12px + env(safe-area-inset-top)); }
+  }
 }
