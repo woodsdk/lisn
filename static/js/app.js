@@ -48,9 +48,12 @@ function render(page) {
   const app = document.getElementById('app');
   const nav = document.getElementById('nav');
 
-  // Pages without nav
+  // Pages without nav (hide for auth flows + active chat conversation)
   const noNav = ['welcome', 'signup', 'login', 'onboarding', 'consent'];
-  nav.style.display = noNav.includes(page.split('/')[0]) ? 'none' : 'flex';
+  const route = page.split('/')[0];
+  const subRoute = page.split('/')[1];
+  const hideNav = noNav.includes(route) || (route === 'chat' && subRoute);
+  nav.style.display = hideNav ? 'none' : 'flex';
 
   const route = page.split('/')[0];
   switch (route) {

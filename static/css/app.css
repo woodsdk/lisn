@@ -89,11 +89,15 @@
     padding-top: 54px; /* Space for dynamic island */
   }
 
-  /* Bottom nav stays inside frame */
+  /* Bottom nav stays inside frame — override fixed positioning */
   .bottom-nav {
     position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
     border-radius: 0;
     padding-bottom: 32px !important; /* Space for home indicator */
+    flex-shrink: 0;
   }
 
   /* Toast inside frame */
@@ -119,8 +123,11 @@
     padding-top: 20px;
   }
 
+  /* Chat fills entire frame (nav hidden during conversation) */
   .chat-page {
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .chat-header {
@@ -128,11 +135,16 @@
   }
 
   .chat-input-bar {
-    padding-bottom: 32px;
+    padding-bottom: 40px; /* Space for home indicator */
   }
 
   .page-padding {
     padding-bottom: 16px;
+  }
+
+  /* Ensure app-content fills available space */
+  .app-content {
+    min-height: 0; /* fix flex overflow */
   }
 }
 
@@ -439,12 +451,14 @@
   bottom: 90px;
 }
 
-/* ── Bottom nav ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+/* ── Bottom nav ── mobile only fixed */
+@media (max-width: 499px) {
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 /* ── Card icon sizing ── */
